@@ -12,7 +12,7 @@ if [ -f "$FILE_PATH" ]; then
   NEW_STRING=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
 
   # Replace all instances of the key phrase with the new string
-  sed -i "s/$KEY_PHRASE/$NEW_STRING/g" "$FILE_PATH"
+  sed -i "s/'$KEY_PHRASE/$NEW_STRING/g'" "$FILE_PATH"
 
   # Print the new string
   echo "New string: $NEW_STRING"

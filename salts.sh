@@ -8,17 +8,24 @@ if [ -f "$FILE_PATH" ]; then
   # Set the unique key phrase
   KEY_PHRASE="put your unique phrase here"
 
-  # Generate a new 64-character string
-  NEW_STRING=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
+  # Find all instances of the key phrase in the file
+  INSTANCES=$(grep -o "$KEY_PHRASE" "$FILE_PATH")
 
-  # Replace all instances of the key phrase with the new string
-  sed -i "s/'$KEY_PHRASE/$NEW_STRING/g'" "$FILE_PATH"
+  # Loop through each instance of the key phrase
+  while read -r INSTANCE; do
+    # Generate a new 64-character string for each instance
+    NEW_STRING=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
 
-  # Print the new string
-  echo "New string: $NEW_STRING"
+    # Replace the instance of the key phrase with the new string
+    sed -i "s/$INSTANCE/$NEW_STRING/g" "$FILE_PATH"
+
+    # Print the new string for the instance
+    echo "New string for instance '$INSTANCE': $NEW_STRING"
+  done <<< "$INSTANCES"
 else
   echo "File not found at $FILE_PATH."
 fi
+
 
 # Find and replace key phrases in wp-config.php file
 if [ -f /var/www/html/wordpress/wp-config.php ]; then

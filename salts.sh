@@ -1,26 +1,28 @@
 #!/bin/bash
 
-# Set unique key phrases
-AUTH_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-SECURE_AUTH_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-LOGGED_IN_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-NONCE_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-AUTH_SALT=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-SECURE_AUTH_SALT=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-LOGGED_IN_SALT=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
-NONCE_SALT=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
+# Set the file path
+FILE_PATH="/var/www/html/wordpress/wp-config.php"
+
+# Check if the file exists
+if [ -f "$FILE_PATH" ]; then
+  # Set the unique key phrase
+  KEY_PHRASE="put your unique phrase here"
+
+  # Generate a new 64-character string
+  NEW_STRING=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
+
+  # Replace all instances of the key phrase with the new string
+  sed -i "s/$KEY_PHRASE/$NEW_STRING/g" "$FILE_PATH"
+
+  # Print the new string
+  echo "New string: $NEW_STRING"
+else
+  echo "File not found at $FILE_PATH."
+fi
 
 # Find and replace key phrases in wp-config.php file
 if [ -f /var/www/html/wordpress/wp-config.php ]; then
-  sed -i "s/define( 'AUTH_KEY',         'put your unique phrase here' );/define( 'AUTH_KEY', '$AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );/define( 'SECURE_AUTH_KEY', '$SECURE_AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'LOGGED_IN_KEY',    'put your unique phrase here' );/define( 'LOGGED_IN_KEY', '$LOGGED_IN_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'NONCE_KEY',        'put your unique phrase here' );/define( 'NONCE_KEY', '$NONCE_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'AUTH_SALT',        'put your unique phrase here' );/define( 'AUTH_SALT', '$AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );/define( 'SECURE_AUTH_SALT', '$SECURE_AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'LOGGED_IN_SALT',   'put your unique phrase here' );/define( 'LOGGED_IN_SALT',   '$LOGGED_IN_SALT' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'NONCE_SALT',       'put your unique phrase here' );/define( 'NONCE_SALT',       '$NONCE_SALT' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/<?php/<?php\ndefine('WP_FAIL2BAN_PROXIES','10.1.0.100');\nif (\$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') \$_SERVER['HTTPS']='on';/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/<?php/<?php\ndefine('WP_FAIL2BAN_PROXIES','10.1.0.100');\nif (\$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') \$_SERVER['HTTPS']='on';/" "$FILE_PATH"
 else
   echo "wp-config.php file not found in /var/www/html/wordpress directory."
 fi

@@ -20,6 +20,7 @@ if [ -f /var/www/html/wordpress/wp-config.php ]; then
   sed -i "s/define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );/define( 'SECURE_AUTH_SALT', '$SECURE_AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
   sed -i "s/define( 'LOGGED_IN_SALT',   'put your unique phrase here' );/define( 'LOGGED_IN_SALT',   '$LOGGED_IN_SALT' );/" /var/www/html/wordpress/wp-config.php
   sed -i "s/define( 'NONCE_SALT',       'put your unique phrase here' );/define( 'NONCE_SALT',       '$NONCE_SALT' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/<?php/<?php\ndefine('WP_FAIL2BAN_PROXIES','10.1.0.100');\nif (\$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') \$_SERVER['HTTPS']='on';/" /var/www/html/wordpress/wp-config.php
 else
   echo "wp-config.php file not found in /var/www/html/wordpress directory."
 fi

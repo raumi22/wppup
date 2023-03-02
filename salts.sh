@@ -12,11 +12,11 @@ NONCE_SALT=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 ; echo '')
 
 # Find and replace key phrases in wp-config.php file
 if [ -f /var/www/html/wordpress/wp-config.php ]; then
-  sed -i "s/define( 'AUTH_KEY', 'put your unique phrase here' );/define( 'AUTH_KEY', '$AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'SECURE_AUTH_KEY', 'put your unique phrase here' );/define( 'SECURE_AUTH_KEY', '$SECURE_AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'LOGGED_IN_KEY', 'put your unique phrase here' );/define( 'LOGGED_IN_KEY', '$LOGGED_IN_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'NONCE_KEY', 'put your unique phrase here' );/define( 'NONCE_KEY', '$NONCE_KEY' );/" /var/www/html/wordpress/wp-config.php
-  sed -i "s/define( 'AUTH_SALT', 'put your unique phrase here' );/define( 'AUTH_SALT', '$AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/define( 'AUTH_KEY',         'put your unique phrase here' );/define( 'AUTH_KEY', '$AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );/define( 'SECURE_AUTH_KEY', '$SECURE_AUTH_KEY' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/define( 'LOGGED_IN_KEY',    'put your unique phrase here' );/define( 'LOGGED_IN_KEY', '$LOGGED_IN_KEY' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/define( 'NONCE_KEY',        'put your unique phrase here' );/define( 'NONCE_KEY', '$NONCE_KEY' );/" /var/www/html/wordpress/wp-config.php
+  sed -i "s/define( 'AUTH_SALT',        'put your unique phrase here' );/define( 'AUTH_SALT', '$AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
   sed -i "s/define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );/define( 'SECURE_AUTH_SALT', '$SECURE_AUTH_SALT' );/" /var/www/html/wordpress/wp-config.php
   sed -i "s/define( 'LOGGED_IN_SALT',   'put your unique phrase here' );/define( 'LOGGED_IN_SALT',   '$LOGGED_IN_SALT' );/" /var/www/html/wordpress/wp-config.php
   sed -i "s/define( 'NONCE_SALT',       'put your unique phrase here' );/define( 'NONCE_SALT',       '$NONCE_SALT' );/" /var/www/html/wordpress/wp-config.php
